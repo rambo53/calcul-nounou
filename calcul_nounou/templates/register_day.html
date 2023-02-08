@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %} 
+
+<h1>Enregistrer nouveau jour :</h1>
+
+<form id="formRegisterDay">
+    <div class="mb-3">
+      <label for="dateRegister" class="form-label">Date à enregistrer :</label>
+      <input type="date" class="form-control w-50" id="dateRegister" name="dateRegister">
+    </div>
+    <div class="mb-3">
+      <label for="hourIn" class="form-label">Heure arrivée :</label>
+      <input type="time" class="form-control w-50" id="hourIn" name="hourIn">
+    </div>
+    <div class="mb-3">
+        <label for="hourOut" class="form-label">Heure départ :</label>
+        <input type="time" class="form-control w-50" id="hourOut" name="hourOut">
+      </div>
+    <div class="btn btn-primary" onclick="sendNewDay()">Enregistrer</div>
+  </form>
+
+{% endblock %}

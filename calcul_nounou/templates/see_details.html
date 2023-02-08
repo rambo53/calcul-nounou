@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %} 
+
+<style>
+    .select{
+        border: 5px solid red; 
+    }
+
+    .update{
+        cursor: pointer;
+    }
+</style>
+
+<h1>Détails :</h1>
+
+<div id="div-year" class="d-flex justify-content-evenly mt-5 mb-5">
+    <button class="btn btn-primary btn-lg select">2023</button>
+    <button class="btn btn-primary btn-lg">2024</button>
+    <button class="btn btn-primary btn-lg">2025</button>
+</div>
+
+<div id="div-month" class="d-flex justify-content-evenly">
+    <button class="btn btn-primary btn-lg select" value="01">Janvier</button>
+    <button class="btn btn-primary btn-lg" value="02">Fevrier</button>
+    <button class="btn btn-primary btn-lg" value="03">Mars</button>
+    <button class="btn btn-primary btn-lg" value="04">Avril</button>
+    <button class="btn btn-primary btn-lg" value="05">Mai</button>
+    <button class="btn btn-primary btn-lg" value="06">Juin</button>
+    <button class="btn btn-primary btn-lg" value="07">Juillet</button>
+    <button class="btn btn-primary btn-lg" value="08">Aout</button>
+    <button class="btn btn-primary btn-lg" value="09">Septembre</button>
+    <button class="btn btn-primary btn-lg" value="10">Octobre</button>
+    <button class="btn btn-primary btn-lg" value="11">Novembre</button>
+    <button class="btn btn-primary btn-lg" value="12">Decembre</button>
+</div>
+
+<div class="mt-5 d-flex justify-content-between">
+    <div>
+        <button class="btn btn-success btn-lg" onclick="showDetails()">Afficher</button>
+        <button class="btn btn-warning btn-lg" onclick="update()">Modifier</button>
+        <button class="btn btn-danger btn-lg" onclick="deleteRow()">Supprimer</button>
+    </div>
+    <button id="btn-pdf" class="btn btn-success btn-lg d-none" onclick="toPdf()">PDF</button>
+</div>
+
+<div id="div-tab"  class="mt-5">
+    <div>
+        <p>Total heures du mois : <span id="span-hours"></span></p>
+        <p>Total coût du mois : <span id="span-cout"></span>€</p>
+    </div>
+
+    <div id="div-details" class="mt-5">
+
+    </div>
+</div>
+{% endblock %}
