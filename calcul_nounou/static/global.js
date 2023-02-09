@@ -2,9 +2,7 @@ const urlToFlask = "http://127.0.0.1:5000/";
 
 /////////////////////////////////////////// Register js ///////////////////////////////////////////
 
-const sendNewDay = async () => {
-    const form = document.getElementById('formRegisterDay');
-    let formdata = new FormData(form);
+const sendNewDay = async (formdata, form) => {
 
     let r = await fetch(urlToFlask+'data_csv/newDay', 
     {
@@ -35,7 +33,38 @@ const sendNewDay = async () => {
             })
         }
     }
+}
 
+
+function isFormValid(){
+    const form = document.getElementById('formRegisterDay');
+    let formdata = new FormData(form);
+
+    let errorMessage = "";
+
+    const date = formdata.get('dateRegister')
+    const year = Number(date.split('-')[0]);
+    const hourIn = formdata.get('hourIn')
+    const onlyHourIn = Number(hourIn.split(':')[0]);
+    const hourOut = formdata.get('hourOut')
+    const onlyHourOut = Number(hourOut.split(':')[0]);
+
+    if(date == "" || (year < 2023 || year > 2025)){
+        errorMessage += "La date n'est pas renseigneé ou n'est pas au bon format.";
+    }
+    if(onlyHourOut < onlyHourIn || hourIn == "" || hourOut == ""){
+        errorMessage += "Les heures ne sont pas correctement renseignées.";
+    }
+    
+    if(errorMessage != ""){
+        Swal.fire({
+            icon: 'error',
+            title: errorMessage,
+          })
+    }
+    else{
+        sendNewDay(formdata, form);
+    }
 }
 
 
@@ -71,9 +100,13 @@ const showDetails = async () => {
     if(r.ok === true){
         let data = await r.json();
         if(data.status==200){
+            const monthFix = Number(document.querySelector('#select-month-cost').value);
+
             document.querySelector("#div-details").innerHTML = data.tab_data;
             document.querySelector("#span-hours").innerText = data.totalHours;
             document.querySelector("#span-cout").innerText = data.totalCostMonth;
+            document.querySelector("#span-month-fix").innerText = monthFix;
+            document.querySelector("#span-month-total").innerText = (monthFix + data.totalCostMonth).toFixed(2);;
             document.querySelector("#btn-pdf").classList.remove("d-none")
         }
         else{
@@ -108,6 +141,7 @@ function updateValue(hourElement){
         cancelButtonText:'Annuler',
     }).then((result) => {
         if (result.isConfirmed) {
+            hourElement.innerHTML = document.querySelector("#newHour").value
             updateInCsv(hourElement);
         }
     })    
@@ -190,7 +224,7 @@ function toPdf(){
 
     const opt = {
         filename: 'recap-'+month+'-'+year+'.pdf',
-        jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' }
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
       };
 
     html2pdf()

@@ -15,8 +15,6 @@ class DataCsv():
 
     def post_data(self, data, nb_hours, daily_indemnity):
 
-        fake_cout_heure = 18
-
         df_to_add = pd.DataFrame()
 
         lst_val = [
@@ -25,9 +23,7 @@ class DataCsv():
             data['hourIn'],
             data['hourOut'],
             str(nb_hours).split(" ")[0],
-            fake_cout_heure,
-            daily_indemnity,
-            round(fake_cout_heure+daily_indemnity,2)
+            daily_indemnity
         ]
 
         for i, col in enumerate(self.df_historique.columns):
@@ -42,13 +38,13 @@ class DataCsv():
         if df.empty:
             raise Exception(f"Il n'y a pas de données pour {year_month}.")
         df["date"] = df["date"].astype('datetime64[ns]')
-
+        
         return df.sort_values(by='date', ignore_index=True)
 
     
     def get_hours_month(self, df_month):
-        df_month['nb_heures'] = pd.to_timedelta(df_month.nb_heures)
-        total_time_delta = str(df_month['nb_heures'].sum())
+        df_month = pd.to_timedelta(df_month.nb_heures)
+        total_time_delta = str(df_month.sum())
         day_hour_min = total_time_delta.split(" ")
         days_to_hour = int(day_hour_min[0])*24
         hour_min = day_hour_min[2].split(":")
@@ -58,20 +54,17 @@ class DataCsv():
 
     
     def get_total_cost_month(self, df_month):
-        return round(df_month["total_jour"].sum(),2)
+        return round(df_month["cout_indemnite"].sum(),2)
 
 
     def updateData(self, data, nb_hours, daily_indemnity):
-        fake_cout_heure = 18
 
         id = self.df_historique.index[self.df_historique["date"] == data['dateRegister']][0]
 
         self.df_historique.at[id,'heure_arrive'] = data['hourIn']
         self.df_historique.at[id,'heure_depart'] = data['hourOut']
         self.df_historique.at[id,'nb_heures'] = nb_hours
-        self.df_historique.at[id,'cout_heure'] = fake_cout_heure
         self.df_historique.at[id,'cout_indemnite'] = daily_indemnity
-        self.df_historique.at[id,'total_jour'] = round(fake_cout_heure+daily_indemnity,2)
 
         self.df_historique.to_csv(csv_name, sep=";", index=False)
 

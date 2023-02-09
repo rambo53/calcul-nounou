@@ -41,13 +41,23 @@
         <button class="btn btn-warning btn-lg" onclick="update()">Modifier</button>
         <button class="btn btn-danger btn-lg" onclick="deleteRow()">Supprimer</button>
     </div>
-    <button id="btn-pdf" class="btn btn-success btn-lg d-none" onclick="toPdf()">PDF</button>
+    <div class="d-flex w-25 justify-content-between d-none" id="btn-pdf">
+        <div class="form-group">
+            <label for="select-month-cost">Mensualité fixe :</label>
+            <select class="form-control" id="select-month-cost">
+              <option>471.58</option>
+            </select>
+        </div>
+        <button class="btn btn-success btn-lg" onclick="toPdf()">PDF</button>
+    </div>
 </div>
 
 <div id="div-tab"  class="mt-5">
     <div>
         <p>Total heures du mois : <span id="span-hours"></span></p>
-        <p>Total coût du mois : <span id="span-cout"></span>€</p>
+        <p>Total indemnités du mois : <span id="span-cout"></span>€</p>
+        <p>Mensualité fixe : <span id="span-month-fix"></span>€</p>
+        <p>Total du mois : <span id="span-month-total"></span>€</p>
     </div>
 
     <div id="div-details" class="mt-5">
