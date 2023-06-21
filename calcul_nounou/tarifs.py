@@ -33,7 +33,7 @@ class Tarif():
         hour_to_minutes = minutes_tab[0]*60
         minutes_total = minutes_tab[1] + hour_to_minutes
         
-        if minutes_total <= 405:
+        if minutes_total <= 390:
             return 2.65
 
         daily_indemnity = minutes_total/60*daily_indemnity_by_hour
